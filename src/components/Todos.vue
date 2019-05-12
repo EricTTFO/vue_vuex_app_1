@@ -72,8 +72,11 @@ i {
   cursor: pointer;
 }
 .legend {
-  /* background: #35495e; */
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
 }
+
 .complete-box {
   display: inline-block;
   width: 10px;
@@ -91,7 +94,7 @@ i {
   color: #fff;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 800px) {
   .todos {
     grid-template-columns: 1fr;
   }

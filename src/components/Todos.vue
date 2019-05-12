@@ -1,10 +1,26 @@
 <template>
   <div>
     <h1>待办事项</h1>
+    <div class="legend">
+      <span>双击表示完成</span>
+      <span>
+        <span class="incomplete-box"></span> = 未完成
+      </span>
+      <span>
+        <span class="complete-box"></span> = 已完成
+      </span>
+    </div>
+
     <div class="todos">
-      <div class="todo" v-for="(todo,index) in allTodos" :key="index">
-         {{ todo.title }}
-          <i @click="deleteTodo(todo.id)" class="fas fa-trash-alt"></i>
+      <div
+        :class="{'is-complete':todo.completed}"
+        @dblclick="onDblClick(todo)"
+        class="todo"
+        v-for="(todo,index) in allTodos"
+        :key="index"
+      >
+        {{ todo.title }}
+        <i @click="deleteTodo(todo.id)" class="fas fa-trash-alt"></i>
       </div>
     </div>
   </div>
@@ -15,34 +31,70 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Todos",
   computed: mapGetters(["allTodos"]),
-  methods: mapActions(['fetchTodos','deleteTodo']),
-  created(){
-      this.fetchTodos();
+  methods: {
+    ...mapActions(["fetchTodos", "deleteTodo", "updateTodo"]),
+    onDblClick(todo) {
+      // console.log(todo);
+      const upTodo = {
+        id: todo.id,
+        title: todo.title,
+        completed: !todo.completed
+      };
+      this.updateTodo(upTodo);
+    }
+  },
+  created() {
+    this.fetchTodos();
   }
 };
 </script>
 
 <style  scoped>
-    .todos{
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        grid-gap: 1rem;
-    }
-    .todo{
-        border: 1px solid #ccc;
-        background: #41b883;
-        padding: 1rem;
-        border-radius: 5px;
-        text-align: center;
-        position: relative;
-        cursor: pointer;
-    }
-    i{
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        color: #fff;
-        cursor: pointer;
-    }
+.todos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+}
+.todo {
+  border: 1px solid #ccc;
+  background: #41b883;
+  padding: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+}
+i {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+.legend {
+  /* background: #35495e; */
+}
+.complete-box {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #35495e;
+}
+.incomplete-box {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #41b883;
+}
+.is-complete {
+  background: #013abb;
+  color: #fff;
+}
+
+@media (max-width: 500px) {
+  .todos {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 

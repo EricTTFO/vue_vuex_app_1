@@ -19,7 +19,7 @@
         v-for="(todo,index) in allTodos"
         :key="index"
       >
-        {{ todo.title }}
+        {{ todo.id }}
         <i @click="deleteTodo(todo.id)" class="fas fa-trash-alt"></i>
       </div>
     </div>

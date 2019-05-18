@@ -18,7 +18,7 @@ export default {
   name: "FilterTodos",
   data() {
     return {
-      count: 200,
+      count: 20,
     };
   },
   methods: mapActions(['filterTodos'])
